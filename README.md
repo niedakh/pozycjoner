@@ -1,12 +1,14 @@
 pozycjoner: a python module for scraping position of public transport vehicles from different vendors
 ==========
 
-Work in progress from Wroc³aw, Poland where the public transport is so bad, people are actually interested in harvesting data to protect themselves from public transport's suckage.
+Work in progress from Wroclaw, Poland where the public transport is so bad, people are actually interested in harvesting data to protect themselves from public transport's suckage.
 
 Current TODO:
-- implement MPK Wroclaw's data source **done** - data source: pasazer.mpk.wroc.pl
-- implement Przewozy Regionalne sp.z.o.o.'s data source *in progress* - data source: 82.160.42.14/opoznienia/
-- define an API structure with generlized Position class, use standard classess for latlng & dates
+
+- define an API structure with generlized Position class, use standard classess for latlng & dat 
+- *in progress* implement Przewozy Regionalne sp.z.o.o.'s data source  - data source: 82.160.42.14/opoznienia/
+- **done** implement MPK Wroclaw's data source - data source: pasazer.mpk.wroc.pl
+
 
 This software is under the Affero GPL v.3 licence. I will gladdly allow anyone to use it commercially with no cost, just e-mail me about it, perhaps ask me to grab a coffee together or chat on IRC (networking is a good payment).
 

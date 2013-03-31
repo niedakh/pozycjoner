@@ -87,7 +87,7 @@ if __name__ == "__main__":
     print(lines)
     
     print("MPK 125:")
-    print(mpk.getPosition(125))
+    print(mpk.getPosition(4))
     
     print("MPK A:")
     print(mpk.getPosition('A'))
