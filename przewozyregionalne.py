@@ -93,13 +93,23 @@ class PrzewozyRegionalnePositionier:
         pkppr_data_tree = BeautifulSoup(self.returnDataTree())
         
         # see documentation in getAvailableLines()
-        link_regexp = re.compile('http\:\/\/maps\.google\.pl\/maps\?q='+line_number+'.*@([0-9\.]+),([0-9\.]+)')
+        line_number_string = str(line_number)
+        if (type(line_number) == type([])):
+            line_number_string = "|".join([str(x) for x in line_number])
+        
+        link_regexp = re.compile('http\:\/\/maps\.google\.pl\/maps\?q=('+line_number_string+')\++@([0-9\.]+),([0-9\.]+)')
         
         if (pkppr_data_tree.find_all(href=link_regexp) == []):
             return [] # TODO: throw an error here
         else:
             # TODO: fix with common position API
-            return link_regexp.match(pkppr_data_tree.find_all(href=link_regexp)[0]['href']).groups()
+            if (type(line_number) == type([])):
+                return [ self.parseDataItem(link_regexp.match(line_link['href']).groups())
+                     for line_link in pkppr_data_tree.find_all(href=link_regexp)]
+            else:
+                return self.parseDataItem((link_regexp.match(pkppr_data_tree.find_all(href=link_regexp)[0]['href']).groups()))
+        
+    
     
   
 if __name__ == "__main__":
@@ -110,6 +120,9 @@ if __name__ == "__main__":
     
     print("PR 91432/3:")
     print(pkppr.getPosition('91432/3'))
+    
+    print("PR 91432/3 & 1116:")
+    print(pkppr.getPosition(['91432/3',1116]))
     
     print("Positions of all available lines:")
     print(pkppr.getAvailablePositions())
