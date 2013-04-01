@@ -32,17 +32,7 @@ class PrzewozyRegionalnePositionier:
         self.provider = 'PrzewozyRegionalne'
         self.dateparser = pdt.Calendar(pdt.Constants())
         
-    def returnPKPPRTree(self, ):
-        pass
-    
-    def parseDataItem(self, item):
-        return {
-            'linia' : item[0],
-            'lat': item[1],
-            'lng': item[2]
-        }    
-        
-    def getAvailableLines(self):
+    def returnDataTree(self):
         #session = requests.session()
         # pkppr_data_page = requests.get(self.mpk_list_url)
         
@@ -50,8 +40,18 @@ class PrzewozyRegionalnePositionier:
         
         #if (mpk_data_page.status_code != 200):
         #    pkppr.raise_for_status()
+        return test_file.read()
+    
+    def parseDataItem(self, item):
+        return {
+            'linia' : item[0],
+            'lat': item[1],
+            'lng': item[2]
+        }
         
-        pkppr_data_tree = BeautifulSoup(test_file.read())
+    def getAvailableLines(self):
+       
+        pkppr_data_tree = BeautifulSoup(self.returnDataTree())
         
                 
         # data of available lines is stored in the DOM tree in the table.opoznienia, ex:
@@ -70,6 +70,18 @@ class PrzewozyRegionalnePositionier:
         # http://maps.google.pl/maps?q=TRAIN_ID+++++@LAT,LNG
         # so what we basically need to scrape are all table.opoznienia tr a 
                 
+        link_regexp = re.compile('http\:\/\/maps\.google\.pl\/maps\?q=([^\+]+)')
+        
+        lines = [ link_regexp.match(line_link['href']).groups()[0]
+                     for line_link in pkppr_data_tree.find_all(href=link_regexp)]
+
+        return lines 
+    
+    def getAvailablePositions(self):
+       
+        pkppr_data_tree = BeautifulSoup(self.returnDataTree())
+        
+        # see documentation in getAvailableLines()
         link_regexp = re.compile('http\:\/\/maps\.google\.pl\/maps\?q=([^\+]+).*@([0-9\.]+),([0-9\.]+)')
         
         positions = [ self.parseDataItem(link_regexp.match(line_link['href']).groups())
@@ -77,52 +89,28 @@ class PrzewozyRegionalnePositionier:
 
         return positions
     
-    #def getPosition(self, line_number):
-    #    lines = []
-    #    if isinstance(line_number, int):
-    #        lines.append(str(line_number).lower())
-    #    elif isinstance(line_number, str):
-    #        lines.append(line_number.lower())
-    #    elif isinstance(line_number,list):
-    #        for i in line_number:
-    #            lines.append(str(i).lower())
-    #    
-    #    # The POST request expects an urlencoded version of
-    #    # busList[bus][]=line number, like an array in PHP, ex:
-    #    # busList[bus][]=5&busList[bus][]=6 etc.
-    #    #
-    #    # Because the Request API expects a dictionary, we creeate a
-    #    # dictionary with one key and put a lines array as the value
-    #    # the Requests API should convert this to a list of key=value pairs
-    #    
-    #    payload = {'busList[bus][]': lines}
-    #    session = requests.session()
-    #    r = requests.post(self.mpk_url, data=payload)
-    #                      
-    #    if (r.status_code != 200):
-    #        r.raise_for_status()
-    #        
-    #    else:
-    #        # pasazer.mpk.wroc.pl returns empty json's for all requests
-    #        # TODO: will figure out a sensible parsed version of return data
-    #        val = {
-    #            # TODO: figure out how to return the received time - as a a datetime?
-    #            'received': self.dateparser.parseDateText(r.headers['last-modified']),
-    #            'json': r.json()
-    #        }
-    #        return val
+    def getPosition(self, line_number):
+        pkppr_data_tree = BeautifulSoup(self.returnDataTree())
+        
+        # see documentation in getAvailableLines()
+        link_regexp = re.compile('http\:\/\/maps\.google\.pl\/maps\?q='+line_number+'.*@([0-9\.]+),([0-9\.]+)')
+        
+        if (pkppr_data_tree.find_all(href=link_regexp) == []):
+            return [] # TODO: throw an error here
+        else:
+            # TODO: fix with common position API
+            return link_regexp.match(pkppr_data_tree.find_all(href=link_regexp)[0]['href']).groups()
+    
   
 if __name__ == "__main__":
     pkppr = PrzewozyRegionalnePositionier()
-    lines = pkppr.getAvailableLines()
+
     print("Available lines:")
-    print(lines)
+    print(pkppr.getAvailableLines())
     
-    #print("MPK 125:")
-    #print(mpk.getPosition(125))
-    #
-    #print("MPK A:")
-    #print(mpk.getPosition('A'))
-    #
-    #print("MPK all:")
-    #print(mpk.getPosition(lines))
+    print("PR 91432/3:")
+    print(pkppr.getPosition('91432/3'))
+    
+    print("Positions of all available lines:")
+    print(pkppr.getAvailablePositions())
+    

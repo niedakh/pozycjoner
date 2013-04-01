@@ -45,6 +45,8 @@ class MPKWroclawPositionier:
         # we want it lowercased because that howe the MPK's javascript does this
         return [line.text.lower() for line in mpk_data_tree.find_all("li", "bus_line")]
 
+    
+
     def getPosition(self, line_number):
         lines = []
         if isinstance(line_number, int):
@@ -79,6 +81,9 @@ class MPKWroclawPositionier:
                 'json': r.json()
             }
             return val
+        
+        
+    
   
 if __name__ == "__main__":
     mpk = MPKWroclawPositionier()
