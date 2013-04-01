@@ -1,0 +1,189 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <meta name="robots" content="index,nofollow"> 
+        <title>Aktualne kursowanie pociągów z GPS - Przewozy Regionalne sp. z o. o.</title>
+        <link href="./../tablice/addon/styl.css" type="text/css" rel="STYLESHEET" media="screen">
+        <script type="text/javascript" src="js/jquery-1.4.4.min.js"></script><style type="text/css"></style>
+		<script type="text/javascript" src="js/funkcje.js"></script>
+    </head>
+    <body>
+
+
+        <div id="naglowek">
+            <a href="http://www.przewozyregionalne.pl"><div id="naglowek-logo"></div></a>
+            <div id="naglowek-tresc" style="padding-top: 20px;">
+                Aktualne kursowanie pociągów z GPS
+            </div>
+            
+        </div>
+        <div id="menu">
+
+            <ul>
+                <li><a href="http://tablice.przewozyregionalne.pl/">Monitorowany<br>rozkład jazdy</a></li>
+                <li><a href="http://przewozyregionalne.pl/">Stron główna<br>Przewozów Reg.</a></li>
+
+            </ul>
+
+        </div>           
+          
+            
+        <div>
+            <div style="font-size: 12px; font-family: verdana;">
+                <form>
+                    <br><b>Podaj numer pociągu lub stację w celu wyfiltrowania: </b><br>
+                        <input type="text" name="fil_p1" id="fil_p1" value="" size="45">
+                        <input type="submit" id="bt_filtruj" name="bt_filtruj" value="Filtruj">
+                </form>
+            </div>  
+           
+        </div>
+
+        <div id="stacje">
+            <div>
+	<!--<ul id="info">
+		<li class="filtr">
+			Filtr
+		</li>
+		<li class="in">
+				pociągi na stronie
+				<span>
+				140
+				</span>
+		</li>
+		<li class="bo">
+				planowo
+				<span>
+				20
+				</span>
+		</li>
+		<li class="m5">
+				5 minut
+				<span>
+				30
+				</span>
+		</li>
+		<li class="m10">
+				10 minut
+				<span>
+				40
+				</span>
+		</li>
+		<li class="mw">
+				więcej niż 10 minut
+				<span>
+				50
+				</span>
+		</li>
+	</ul>
+    <table align=CENTER cellpadding=2 border=0 style="font-size: 12px;" width=960px>
+	
+	<table class="tbl_info">
+        <tr>
+            <td class="in">
+                pociągi na stronie
+            </td>
+            <td class="in b">
+                $suma
+            </td>
+            <td class="bo">
+                planowo
+            </td>
+            <td class="bo b">
+                $bo
+            </td>
+            <td class="m5">
+                5 minut
+            </td>
+            <td class="m5 b">
+                $m5
+            </td>
+            <td class="m10">
+                10 minut
+            </td>
+            <td class="m10 b">
+                $m10
+            </td>
+            <td class="mw">
+                więcej niż 10 minut
+            </td>
+            <td class="mw b">
+                $mw
+            </td>
+        </tr>
+    </table>
+	-->
+</div>
+<table class="tbl_info">
+        <tbody><tr>
+            <td class="in" style="cursor: pointer;">
+                pociągi na stronie
+                <span>43</span>
+            </td>
+            <td class="bo" style="cursor: pointer;">
+                planowo
+                <span>40</span>
+            </td>
+            <td class="m5" style="cursor: pointer;">
+                5 minut
+                <span>2</span>
+            </td>
+            <td class="m10" style="cursor: pointer;">
+                10 minut
+                <span>0</span>
+            </td>
+            <td class="mw" style="cursor: pointer;">
+                więcej niż 10 minut
+                <span>1</span>
+            </td>
+        </tr>
+    </tbody></table><table class="opoznienia" align="CENTER" style="font-size: 12px;" width="960px">
+    <thead>
+        <tr id="tabela-naglowek">
+            <td>
+                <b>Pociąg</b>
+            </td>
+            <td>
+                <b>Relacji</b>
+            </td>
+            <td>
+                <b>Orientacyjny
+                    <br>
+                    czas opóźnienia
+                </b>
+            </td>
+            <td>
+                <b>Najbliższa stacja</b>
+            </td>
+            <td>
+                <b>Czas odczytu</b>
+            </td>
+        </tr>
+    </thead>
+    <tbody>
+        <tr id="tabela-n1"><td><a href="http://maps.google.pl/maps?q=77532+++++@52.096100000,17.327171700&amp;t=m&amp;dirflg=r&amp;z=12" target="_blank">77532</a></td><td>Poznań Główny (18:50) - Kępno (22:01)</td><td class="mw">15 min.</td><td>Solec Wielkopolski            </td><td>2013-03-31 19:57:05</td></tr><tr id="tabela-n2"><td><a href="http://maps.google.pl/maps?q=2224+++++@49.984136700,20.383458300&amp;t=m&amp;dirflg=r&amp;z=12" target="_blank">2224</a></td><td>Krynica (14:58) - Kraków Główny Osobowy (20:44)</td><td class="m5">5 min.</td><td>Cikowice                      </td><td>2013-03-31 19:57:31</td></tr><tr id="tabela-n1"><td><a href="http://maps.google.pl/maps?q=2029+++++@53.747473300,18.685791700&amp;t=m&amp;dirflg=r&amp;z=12" target="_blank">2029</a></td><td>Bydgoszcz Główna (18:33) - Gdynia Chylonia (22:42)</td><td class="m5">5 min.</td><td>Smętowo                       </td><td>2013-03-31 19:57:31</td></tr><tr id="tabela-n2"><td><a href="http://maps.google.pl/maps?q=6034+++++@54.545596700,18.463818300&amp;t=m&amp;dirflg=r&amp;z=12" target="_blank">6034</a></td><td>Gdynia Chylonia (19:50) - Malbork (22:07)</td><td class="bo">planowo</td><td>Gdynia Chylonia               </td><td>2013-03-31 19:56:57</td></tr><tr id="tabela-n1"><td><a href="http://maps.google.pl/maps?q=89746+++++@53.891843300,16.300868300&amp;t=m&amp;dirflg=r&amp;z=12" target="_blank">89746</a></td><td>Kołobrzeg (18:33) - Szczecinek (20:46)</td><td class="bo">planowo</td><td>Wielanowo                     </td><td>2013-03-31 19:57:03</td></tr><tr id="tabela-n2"><td><a href="http://maps.google.pl/maps?q=60330+++++@53.685251700,19.368020000&amp;t=m&amp;dirflg=r&amp;z=12" target="_blank">60330</a></td><td>Malbork (18:40) - Iława Główna (20:17)</td><td class="bo">planowo</td><td>Redaki                        </td><td>2013-03-31 19:56:56</td></tr><tr id="tabela-n1"><td><a href="http://maps.google.pl/maps?q=30136/7+++++@53.026268300,18.633360000&amp;t=m&amp;dirflg=r&amp;z=12" target="_blank">30136/7</a></td><td>Bydgoszcz Główna (18:28) - Iława Główna (21:19)</td><td class="bo">planowo</td><td>Toruń Wschodni                </td><td>2013-03-31 19:57:00</td></tr><tr id="tabela-n2"><td><a href="http://maps.google.pl/maps?q=67835/4+++++@51.566036700,17.306551700&amp;t=m&amp;dirflg=r&amp;z=12" target="_blank">67835/4</a></td><td>Wrocław Główny (17:36) - Krotoszyn (20:15)</td><td class="bo">planowo</td><td>Rakoniewice Milickie          </td><td>2013-03-31 19:56:54</td></tr><tr id="tabela-n1"><td><a href="http://maps.google.pl/maps?q=22039+++++@50.851835000,20.162580000&amp;t=m&amp;dirflg=r&amp;z=12" target="_blank">22039</a></td><td>Kielce (19:10) - Włoszczowa (20:01)</td><td class="bo">planowo</td><td>Ludynia                       </td><td>2013-03-31 19:57:00</td></tr><tr id="tabela-n2"><td><a href="http://maps.google.pl/maps?q=5543+++++@49.898540000,19.710220000&amp;t=m&amp;dirflg=r&amp;z=12" target="_blank">5543</a></td><td>Kraków Główny Osobowy (18:52) - Sucha Beskidzka (20:40)</td><td class="bo">planowo</td><td>Leńcze                        </td><td>2013-03-31 19:57:34</td></tr><tr id="tabela-n1"><td><a href="http://maps.google.pl/maps?q=5541/0+++++@49.486216700,19.995230000&amp;t=m&amp;dirflg=r&amp;z=12" target="_blank">5541/0</a></td><td>Kraków Główny Osobowy (16:24) - Zakopane (20:29)</td><td class="bo">planowo</td><td>Lasek                         </td><td>2013-03-31 19:57:34</td></tr><tr id="tabela-n2"><td><a href="http://maps.google.pl/maps?q=7642+++++@51.702125000,15.885046700&amp;t=m&amp;dirflg=r&amp;z=12" target="_blank">7642</a></td><td>Zielona Góra (18:19) - Wrocław Główny (22:20)</td><td class="bo">planowo</td><td>Czerna                        </td><td>2013-03-31 19:57:05</td></tr><tr id="tabela-n1"><td><a href="http://maps.google.pl/maps?q=66338+++++@50.927323300,17.033335000&amp;t=m&amp;dirflg=r&amp;z=12" target="_blank">66338</a></td><td>Międzylesie (17:50) - Wrocław Główny (20:16)</td><td class="bo">planowo</td><td>Węgry                         </td><td>2013-03-31 19:56:59</td></tr><tr id="tabela-n2"><td><a href="http://maps.google.pl/maps?q=6625+++++@50.800085000,20.550978300&amp;t=m&amp;dirflg=r&amp;z=12" target="_blank">6625</a></td><td>Kielce (19:42) - Sędziszów (20:40)</td><td class="bo">planowo</td><td>Sitkówka Nowiny               </td><td>2013-03-31 19:57:35</td></tr><tr id="tabela-n1"><td><a href="http://maps.google.pl/maps?q=7126+++++@51.727801700,18.329476700&amp;t=m&amp;dirflg=r&amp;z=12" target="_blank">7126</a></td><td>Poznań Główny (16:48) - Łódź Kaliska (21:38)</td><td class="bo">planowo</td><td>Radliczyce                    </td><td>2013-03-31 19:57:02</td></tr><tr id="tabela-n2"><td><a href="http://maps.google.pl/maps?q=1116+++++@51.225710000,22.403885000&amp;t=m&amp;dirflg=r&amp;z=12" target="_blank">1116</a></td><td>Dorohusk (18:02) - Dęblin (20:54)</td><td class="bo">planowo</td><td>Motycz                        </td><td>2013-03-31 19:57:02</td></tr><tr id="tabela-n1"><td><a href="http://maps.google.pl/maps?q=134+++++@51.134005000,23.446565000&amp;t=m&amp;dirflg=r&amp;z=12" target="_blank">134</a></td><td>Chełm (19:46) - Rejowiec (20:03)</td><td class="bo">planowo</td><td>Chełm Miasto                  </td><td>2013-03-31 19:57:00</td></tr><tr id="tabela-n2"><td><a href="http://maps.google.pl/maps?q=2225+++++@49.601916700,20.887480000&amp;t=m&amp;dirflg=r&amp;z=12" target="_blank">2225</a></td><td>Kraków Główny Osobowy (16:40) - Nowy Sącz (20:17)</td><td class="bo">planowo</td><td>Ptaszkowa                     </td><td>2013-03-31 19:56:55</td></tr><tr id="tabela-n1"><td><a href="http://maps.google.pl/maps?q=127+++++@50.045426700,21.375481700&amp;t=m&amp;dirflg=r&amp;z=12" target="_blank">127</a></td><td>Kraków Główny Osobowy (17:06) - Rzeszów (20:50)</td><td class="bo">planowo</td><td>Dębica                        </td><td>2013-03-31 19:57:32</td></tr><tr id="tabela-n2"><td><a href="http://maps.google.pl/maps?q=23441+++++@50.200516700,22.484795000&amp;t=m&amp;dirflg=r&amp;z=12" target="_blank">23441</a></td><td>Stalowa Wola Rozwadów (18:40) - Przeworsk (20:20)</td><td class="bo">planowo</td><td>Grodzisko Dolne               </td><td>2013-03-31 19:57:36</td></tr><tr id="tabela-n1"><td><a href="http://maps.google.pl/maps?q=30240/1+++++@50.018591700,20.030856700&amp;t=m&amp;dirflg=r&amp;z=12" target="_blank">30240/1</a></td><td>Oświęcim (17:40) -  (20:04)</td><td class="bo">planowo</td><td>Kraków Bieżanów               </td><td>2013-03-31 19:57:29</td></tr><tr id="tabela-n2"><td><a href="http://maps.google.pl/maps?q=66429+++++@51.392163300,16.519313300&amp;t=m&amp;dirflg=r&amp;z=12" target="_blank">66429</a></td><td>Wrocław Główny (18:52) - Głogów (20:58)</td><td class="bo">planowo</td><td>Orzeszków                     </td><td>2013-03-31 19:57:34</td></tr><tr id="tabela-n1"><td><a href="http://maps.google.pl/maps?q=78127+++++@53.375748300,14.618896700&amp;t=m&amp;dirflg=r&amp;z=12" target="_blank">78127</a></td><td>Poznań Główny (16:40) - Szczecin Główny (20:05)</td><td class="bo">planowo</td><td>Szczecin Zdroje               </td><td>2013-03-31 19:57:05</td></tr><tr id="tabela-n2"><td><a href="http://maps.google.pl/maps?q=91434/5+++++@54.073185000,18.925936700&amp;t=m&amp;dirflg=r&amp;z=12" target="_blank">91434/5</a></td><td>Elbląg (19:10) - Gdynia Chylonia (21:44)</td><td class="bo">planowo</td><td>Szymankowo                    </td><td>2013-03-31 19:57:01</td></tr><tr id="tabela-n1"><td><a href="http://maps.google.pl/maps?q=4230+++++@50.396118300,19.942246700&amp;t=m&amp;dirflg=r&amp;z=12" target="_blank">4230</a></td><td>Sławków (18:53) - Sędziszów (20:19)</td><td class="bo">planowo</td><td>Charsznica                    </td><td>2013-03-31 19:57:01</td></tr><tr id="tabela-n2"><td><a href="http://maps.google.pl/maps?q=14037+++++@51.575190000,19.723963300&amp;t=m&amp;dirflg=r&amp;z=12" target="_blank">14037</a></td><td>Koluszki (19:33) - Częstochowa (21:46)</td><td class="bo">planowo</td><td>Czarnocin                     </td><td>2013-03-31 19:57:02</td></tr><tr id="tabela-n1"><td><a href="http://maps.google.pl/maps?q=32148+++++@50.316663300,20.013151700&amp;t=m&amp;dirflg=r&amp;z=12" target="_blank">32148</a></td><td>Kraków Główny Osobowy (19:11) - Kielce (21:30)</td><td class="bo">planowo</td><td>Kamieńczyce                   </td><td>2013-03-31 19:57:29</td></tr><tr id="tabela-n2"><td><a href="http://maps.google.pl/maps?q=76934+++++@52.244168300,16.854750000&amp;t=m&amp;dirflg=r&amp;z=12" target="_blank">76934</a></td><td>Poznań Główny (19:30) - Wrocław Główny (22:37)</td><td class="bo">planowo</td><td>Mosina                        </td><td>2013-03-31 19:57:36</td></tr><tr id="tabela-n1"><td><a href="http://maps.google.pl/maps?q=66238+++++@50.979143300,16.637966700&amp;t=m&amp;dirflg=r&amp;z=12" target="_blank">66238</a></td><td>Jelenia Góra (17:51) - Wrocław Główny (20:30)</td><td class="bo">planowo</td><td>Mietków                       </td><td>2013-03-31 19:56:56</td></tr><tr id="tabela-n2"><td><a href="http://maps.google.pl/maps?q=51026/7+++++@52.277216700,19.236508300&amp;t=m&amp;dirflg=r&amp;z=12" target="_blank">51026/7</a></td><td>Toruń Główny (18:19) - Łódź Kaliska (21:48)</td><td class="bo">planowo</td><td>Ostrowy                       </td><td>2013-03-31 19:56:55</td></tr><tr id="tabela-n1"><td><a href="http://maps.google.pl/maps?q=30132/3+++++@50.120216700,19.706378300&amp;t=m&amp;dirflg=r&amp;z=12" target="_blank">30132/3</a></td><td> (18:54) - Oświęcim (21:09)</td><td class="bo">planowo</td><td>Rudawa                        </td><td>2013-03-31 19:57:32</td></tr><tr id="tabela-n2"><td><a href="http://maps.google.pl/maps?q=126+++++@50.003918300,20.737508300&amp;t=m&amp;dirflg=r&amp;z=12" target="_blank">126</a></td><td>Rzeszów (17:33) - Kraków Główny Osobowy (21:27)</td><td class="bo">planowo</td><td>Biadoliny                     </td><td>2013-03-31 19:57:37</td></tr><tr id="tabela-n1"><td><a href="http://maps.google.pl/maps?q=91432/3+++++@54.379021700,18.613180000&amp;t=m&amp;dirflg=r&amp;z=12" target="_blank">91432/3</a></td><td>Elbląg (17:56) - Gdynia Chylonia (20:38)</td><td class="bo">planowo</td><td>Gdańsk Wrzeszcz               </td><td>2013-03-31 19:56:58</td></tr><tr id="tabela-n2"><td><a href="http://maps.google.pl/maps?q=556030+++++@54.072281700,18.930498300&amp;t=m&amp;dirflg=r&amp;z=12" target="_blank">556030</a></td><td>Gdynia Chylonia (17:42) - Malbork (20:09)</td><td class="bo">planowo</td><td>Szymankowo                    </td><td>2013-03-31 19:57:31</td></tr><tr id="tabela-n1"><td><a href="http://maps.google.pl/maps?q=55206+++++@54.354218300,18.643268300&amp;t=m&amp;dirflg=r&amp;z=12" target="_blank">55206</a></td><td>Gdańsk Główny (19:54) - Malbork (21:04)</td><td class="bo">planowo</td><td>Gdańsk Główny                 </td><td>2013-03-31 19:57:31</td></tr><tr id="tabela-n2"><td><a href="http://maps.google.pl/maps?q=20128+++++@54.323313300,18.634216700&amp;t=m&amp;dirflg=r&amp;z=12" target="_blank">20128</a></td><td>Gdynia Główna (19:07) - Laskowice Pomorskie (21:37)</td><td class="bo">planowo</td><td>Gdańsk Orunia                 </td><td>2013-03-31 19:56:55</td></tr><tr id="tabela-n1"><td><a href="http://maps.google.pl/maps?q=12038/9+++++@51.231411700,22.568960000&amp;t=m&amp;dirflg=r&amp;z=12" target="_blank">12038/9</a></td><td>Terespol (15:41) - Chełm (21:12)</td><td class="bo">planowo</td><td>Lublin                        </td><td>2013-03-31 19:57:01</td></tr><tr id="tabela-n2"><td><a href="http://maps.google.pl/maps?q=97133/2+++++@53.818640000,20.322790000&amp;t=m&amp;dirflg=r&amp;z=12" target="_blank">97133/2</a></td><td>Elbląg (18:25) - Olsztyn Główny (20:11)</td><td class="bo">planowo</td><td>Jonkowo                       </td><td>2013-03-31 19:56:57</td></tr><tr id="tabela-n1"><td><a href="http://maps.google.pl/maps?q=89137+++++@54.345795000,16.548831700&amp;t=m&amp;dirflg=r&amp;z=12" target="_blank">89137</a></td><td>Słupsk (19:15) - Białogard (20:58)</td><td class="bo">planowo</td><td>Karwice                       </td><td>2013-03-31 19:56:54</td></tr><tr id="tabela-n2"><td><a href="http://maps.google.pl/maps?q=30420/1+++++@50.113351700,19.325223300&amp;t=m&amp;dirflg=r&amp;z=12" target="_blank">30420/1</a></td><td>Oświęcim (19:35) - Kraków Główny Osobowy (21:32)</td><td class="bo">planowo</td><td>Libiąż                        </td><td>2013-03-31 19:57:32</td></tr><tr id="tabela-n1"><td><a href="http://maps.google.pl/maps?q=129+++++@50.001718300,20.302106700&amp;t=m&amp;dirflg=r&amp;z=12" target="_blank">129</a></td><td>Kraków Główny Osobowy (18:55) - Rzeszów (23:08)</td><td class="bo">planowo</td><td>Kłaj                          </td><td>2013-03-31 19:57:30</td></tr><tr id="tabela-n2"><td><a href="http://maps.google.pl/maps?q=4340/1+++++@50.136911700,19.561536700&amp;t=m&amp;dirflg=r&amp;z=12" target="_blank">4340/1</a></td><td>Katowice (18:25) - Kraków Główny Osobowy (20:55)</td><td class="bo">planowo</td><td>Wola Filipowska               </td><td>2013-03-31 19:57:32</td></tr><tr id="tabela-n1"><td><a href="http://maps.google.pl/maps?q=78421/0+++++@53.693546700,16.705568300&amp;t=m&amp;dirflg=r&amp;z=12" target="_blank">78421/0</a></td><td>Poznań Główny (16:48) - Koszalin (21:23)</td><td class="bo">planowo</td><td>Szczecinek                    </td><td>2013-03-31 19:57:00</td></tr>    </tbody>
+</table>
+
+        </div>
+
+        
+        
+        <div id="stopka">
+
+			<div id="stopka-stat">
+			
+                <b>Odczytano dnia: </b> 2013-03-31 19:57:38                <br><b>Odwiedzin:</b> 200755            
+                <br><br>serwis testowy dla pociągów z modułem GPS<br>
+                (dane pozyskujemy przy współpracy z Data System Group)<br>
+                <a href="http://www.datasystem.pl/" style="display: block; width: 50px; height: 35px;"><img src="DSLogo1.jpg"></a></div>
+            <div id="stopka-srodek"></div>
+            <div id="stopka-pies"></div>
+
+        </div>
+
+
+
+
+    
+
+</body></html>

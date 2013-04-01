@@ -2,7 +2,7 @@
 # transport vehicles from different vendors
 # https://github.com/niedakh/pozycjoner/
 #
-# Copyright (C) 2013  Piotr Szymañski
+# Copyright (C) 2013  Piotr Szymanski <niedakh@gmail.com>
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
