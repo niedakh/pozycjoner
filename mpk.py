@@ -20,14 +20,18 @@
 import requests
 from bs4 import BeautifulSoup
 import parsedatetime as pdt
-from datetime import datetime 
+from datetime import datetime
+from position import Position
+from time import mktime
+from positioner import Positionier
 
-class MPKWroclawPositionier:
+class MPKWroclawPositionier(Positionier):
     """ TODO:description """
     
     def __init__(self):
         self.mpk_url = 'http://pasazer.mpk.wroc.pl/bus_gps/position'
         self.provider = 'MPKWroclaw'
+        self.provider_id = 'pl.wroc.mpk'
         self.mpk_list_url = 'http://pasazer.mpk.wroc.pl/jak-jezdzimy/mapa-pozycji-pojazdow'
         self.dateparser = pdt.Calendar(pdt.Constants())
         
@@ -64,24 +68,25 @@ class MPKWroclawPositionier:
         # Because the Request API expects a dictionary, we creeate a
         # dictionary with one key and put a lines array as the value
         # the Requests API should convert this to a list of key=value pairs
-        
         payload = {'busList[bus][]': lines}
         session = requests.session()
         r = requests.post(self.mpk_url, data=payload)
                           
         if (r.status_code != 200):
-            r.raise_for_status()
-            
+            r.raise_for_status()    
         else:
-            # pasazer.mpk.wroc.pl returns empty json's for all requests
-            # TODO: will figure out a sensible parsed version of return data
-            val = {
-                # TODO: figure out how to return the received time - as a a datetime?
-                'received': self.dateparser.parseDateText(r.headers['last-modified']),
-                'json': r.json()
-            }
-            return val
+            # http header has a specific date format, parser needed
+            received = self.dateparser.parseDateText(r.headers['last-modified'])
+            return [ self. parseDataItem(x,received) for x in r.json()]
         
+    def parseDataItem(self, item, received):
+        # MPK returns a json in the following format
+        # {'x': 51.107200622559 /lng/, 'y': 17.033378601074 /lat/,
+        #  'k': '2635053' /some internal id - dunno?/,
+        #  'name': '4' /line number or id /,
+        #  'type': 'tram' /might also be 'bus' or 'train'/}
+
+        return Position(item['name'], self.provider_id, item['x'], item['y'], item['type'], mktime(received), {'k': item['k']})
         
     
   
@@ -91,11 +96,11 @@ if __name__ == "__main__":
     print("Available lines:")
     print(lines)
     
-    print("MPK 125:")
-    print(mpk.getPosition(4))
+    print("MPK 241:")
+    print(mpk.getPosition(241))
     
     print("MPK A:")
     print(mpk.getPosition('A'))
     
     print("MPK all:")
-    print(mpk.getPosition(lines))
+    print(mpk.getAllPositions())

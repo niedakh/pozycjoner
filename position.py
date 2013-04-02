@@ -17,18 +17,27 @@
 #    You should have received a copy of the GNU Affero General Public License
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-class Positionier:
+class Position:
+    
     """ TODO:description """
     
-    def getAllPositions(self):
-        return self.getPosition(self.getAvailableLines())
-        
-    def getProviderName(self):
-        return self.provider
-    
-    def getProviderId(self):
-        return self.provider_id
-        
-    
-    
-    
+    def __init__(self, line_id, company_id, lat, lng, mode, received, extra_data):
+            self.line = line_id
+            self.provider = company_id
+            self.pos = {
+                'lat' : lat,
+                'lng' : lng
+            }
+            self.mode = mode
+            self.date = received 
+            self.extra = ""
+
+    def __repr__(self):
+        return {
+            'line': self.line,
+            'provider': self.provider,
+            'pos': self.pos,
+            'mode': self.mode,
+            'date': self.date,
+            'extra': self.extra
+        }.__repr__()

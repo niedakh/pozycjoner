@@ -4,9 +4,12 @@ pozycjoner: a python module for scraping position of public transport vehicles f
 Work in progress from Wroclaw, Poland where the public transport is so bad, people are actually interested in harvesting data to protect themselves from public transport's suckage.
 
 Current TODO:
-
-- define an API structure with generlized Position class, use standard classess for latlng & dat 
-- *in progress* implement Przewozy Regionalne sp.z.o.o.'s data source  - data source: 82.160.42.14/opoznienia/
+- check for some backend ideas
+- write some API documentation
+- *in progress* define nearest station, delay time and other possible data in the Position API (maybe change it to Status?)
+- **done** extra data in backends, esp. time the data was received (what standard?) and attach extra data to results
+- **done** define an API structure with generlized Position class, use standard classess for latlng & dat
+- **done** implement Przewozy Regionalne sp.z.o.o.'s data source  - data source: kursowania.przewozyregionalne.pl
 - **done** implement MPK Wroclaw's data source - data source: pasazer.mpk.wroc.pl
 
 

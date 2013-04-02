@@ -23,35 +23,46 @@ import parsedatetime as pdt
 from datetime import datetime
 import os,sys
 import re
+from position import Position
+from time import mktime
 
 class PrzewozyRegionalnePositionier:
     """ TODO:description """
     
     def __init__(self):
-        self.pkppr_url = 'http://82.160.42.14/opoznienia/'
-        self.provider = 'PrzewozyRegionalne'
+        self.data_url = 'http://82.160.42.14/opoznienia/'
+        self.provider = 'Przewozy Regionalne sp. z.o.o.'
+        self.provider_id = 'pl.przewozyregionalne'
         self.dateparser = pdt.Calendar(pdt.Constants())
+        self.type = 'train'
         
     def returnDataTree(self):
-        #session = requests.session()
-        # pkppr_data_page = requests.get(self.mpk_list_url)
-        
         test_file = open(os.path.dirname(__file__)+'\\testdata\\pkppr.htm', encoding='utf-8')
-        
-        #if (mpk_data_page.status_code != 200):
-        #    pkppr.raise_for_status()
         return test_file.read()
     
+        #session = requests.session()
+        #data_page = requests.get(self.data_url)
+        #
+        #if (data_page.status_code != 200):
+        #    data_page.raise_for_status()
+        #else:
+        #    return data_page.content
+        #
+        
     def parseDataItem(self, item):
-        return {
-            'linia' : item[0],
-            'lat': item[1],
-            'lng': item[2]
-        }
+        if (item != []):
+            return Position(item[0][0], self.provider_id, item[0][1], item[0][2], self.type, mktime(datetime.strptime(item[0][6], "%Y-%m-%d %H:%M:%S").timetuple()),
+                        {
+                            'raw': item                            
+                        }
+                        )
+        return None
+
+        #return new Position(item[0],item[1],item[2],null,null)
         
     def getAvailableLines(self):
        
-        pkppr_data_tree = BeautifulSoup(self.returnDataTree())
+        data_tree = BeautifulSoup(self.returnDataTree())
         
                 
         # data of available lines is stored in the DOM tree in the table.opoznienia, ex:
@@ -73,43 +84,49 @@ class PrzewozyRegionalnePositionier:
         link_regexp = re.compile('http\:\/\/maps\.google\.pl\/maps\?q=([^\+]+)')
         
         lines = [ link_regexp.match(line_link['href']).groups()[0]
-                     for line_link in pkppr_data_tree.find_all(href=link_regexp)]
+                     for line_link in data_tree.find_all(href=link_regexp)]
 
         return lines 
     
     def getAvailablePositions(self):
        
-        pkppr_data_tree = BeautifulSoup(self.returnDataTree())
+        #data_tree = self.returnDataTree()
+        data_tree = BeautifulSoup(self.returnDataTree())
+        table = data_tree.find('table','opoznienia')
+        items = table.contents.__repr__().split("<tr")
         
         # see documentation in getAvailableLines()
-        link_regexp = re.compile('http\:\/\/maps\.google\.pl\/maps\?q=([^\+]+).*@([0-9\.]+),([0-9\.]+)')
+        link_regexp = re.compile('http\:\/\/maps\.google\.pl\/maps\?q=([^\+]+).*@([0-9\.]+),([0-9\.]+).*<td[^<]*>(.+)</td><td[^<]*>(.+)</td><td[^<]*>(.+)</td><td[^<]*>(.+)</td>',re.DOTALL | re.IGNORECASE)
         
-        positions = [ self.parseDataItem(link_regexp.match(line_link['href']).groups())
-                     for line_link in pkppr_data_tree.find_all(href=link_regexp)]
+        return [self.parseDataItem(link_regexp.findall(item)) for item in items]
+        
+        
 
-        return positions
-    
     def getPosition(self, line_number):
-        pkppr_data_tree = BeautifulSoup(self.returnDataTree())
+        data_tree = BeautifulSoup(self.returnDataTree())
+        table = data_tree.find('table','opoznienia')
+        items = table.contents.__repr__().split("<tr")
         
         # see documentation in getAvailableLines()
         line_number_string = str(line_number)
         if (type(line_number) == type([])):
             line_number_string = "|".join([str(x) for x in line_number])
         
-        link_regexp = re.compile('http\:\/\/maps\.google\.pl\/maps\?q=('+line_number_string+')\++@([0-9\.]+),([0-9\.]+)')
+        #link_regexp = re.compile('http\:\/\/maps\.google\.pl\/maps\?q=('+line_number_string+')\++@([0-9\.]+),([0-9\.]+)')
+        link_regexp = re.compile('http\:\/\/maps\.google\.pl\/maps\?q=('+line_number_string+')\++.*@([0-9\.]+),([0-9\.]+).*<td[^<]*>(.+)</td><td[^<]*>(.+)</td><td[^<]*>(.+)</td><td[^<]*>(.+)</td>',re.DOTALL | re.IGNORECASE)
         
-        if (pkppr_data_tree.find_all(href=link_regexp) == []):
-            return [] # TODO: throw an error here
-        else:
-            # TODO: fix with common position API
-            if (type(line_number) == type([])):
-                return [ self.parseDataItem(link_regexp.match(line_link['href']).groups())
-                     for line_link in pkppr_data_tree.find_all(href=link_regexp)]
-            else:
-                return self.parseDataItem((link_regexp.match(pkppr_data_tree.find_all(href=link_regexp)[0]['href']).groups()))
+        ret = []
+        for item in items:
+            res = link_regexp.findall(item)
+            if (res != []):
+                item = self.parseDataItem(res)
+                if (item != None):
+                    ret.append(item)
         
-    
+        if (ret == []):
+            return None
+        
+        return ret
     
   
 if __name__ == "__main__":
@@ -124,6 +141,6 @@ if __name__ == "__main__":
     print("PR 91432/3 & 1116:")
     print(pkppr.getPosition(['91432/3',1116]))
     
-    print("Positions of all available lines:")
-    print(pkppr.getAvailablePositions())
+    #print("Positions of all available lines:")
+    #print(pkppr.getAvailablePositions())
     
