@@ -37,17 +37,17 @@ class PrzewozyRegionalnePositionier:
         self.type = 'train'
         
     def returnDataTree(self):
-        test_file = open(os.path.dirname(__file__)+'\\testdata\\pkppr.htm', encoding='utf-8')
-        return test_file.read()
+        #test_file = open(os.path.dirname(__file__)+'\\testdata\\pkppr.htm', encoding='utf-8')
+        #return test_file.read()
     
-        #session = requests.session()
-        #data_page = requests.get(self.data_url)
-        #
-        #if (data_page.status_code != 200):
-        #    data_page.raise_for_status()
-        #else:
-        #    return data_page.content
-        #
+        session = requests.session()
+        data_page = requests.get(self.data_url)
+        
+        if (data_page.status_code != 200):
+            data_page.raise_for_status()
+        else:
+            return data_page.content
+        
         
     def parseDataItem(self, item):
         if (item != []):
@@ -58,8 +58,6 @@ class PrzewozyRegionalnePositionier:
                         )
         return None
 
-        #return new Position(item[0],item[1],item[2],null,null)
-        
     def getAvailableLines(self):
        
         data_tree = BeautifulSoup(self.returnDataTree())
@@ -98,7 +96,13 @@ class PrzewozyRegionalnePositionier:
         # see documentation in getAvailableLines()
         link_regexp = re.compile('http\:\/\/maps\.google\.pl\/maps\?q=([^\+]+).*@([0-9\.]+),([0-9\.]+).*<td[^<]*>(.+)</td><td[^<]*>(.+)</td><td[^<]*>(.+)</td><td[^<]*>(.+)</td>',re.DOTALL | re.IGNORECASE)
         
-        return [self.parseDataItem(link_regexp.findall(item)) for item in items]
+        ret = [self.parseDataItem(link_regexp.findall(item)) for item in items]
+        # items has an items[0] containing the <thead> before first <tr>
+        # and items[1] the first <tr> containing the header of the table
+        # therefore an empty table will result in [None,None] being returned
+        if (ret == [None,None]):
+            return None
+        return ret
         
         
 
@@ -110,8 +114,10 @@ class PrzewozyRegionalnePositionier:
         # see documentation in getAvailableLines()
         line_number_string = str(line_number)
         if (type(line_number) == type([])):
+            # getting a line1|line2|line3 - an matching expression for alternative of line ids
             line_number_string = "|".join([str(x) for x in line_number])
-        
+    
+        # see documentation in getAvailableLines()
         #link_regexp = re.compile('http\:\/\/maps\.google\.pl\/maps\?q=('+line_number_string+')\++@([0-9\.]+),([0-9\.]+)')
         link_regexp = re.compile('http\:\/\/maps\.google\.pl\/maps\?q=('+line_number_string+')\++.*@([0-9\.]+),([0-9\.]+).*<td[^<]*>(.+)</td><td[^<]*>(.+)</td><td[^<]*>(.+)</td><td[^<]*>(.+)</td>',re.DOTALL | re.IGNORECASE)
         
@@ -141,6 +147,6 @@ if __name__ == "__main__":
     print("PR 91432/3 & 1116:")
     print(pkppr.getPosition(['91432/3',1116]))
     
-    #print("Positions of all available lines:")
-    #print(pkppr.getAvailablePositions())
+    print("Positions of all available lines:")
+    print(pkppr.getAvailablePositions())
     
