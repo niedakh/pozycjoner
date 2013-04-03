@@ -26,6 +26,23 @@ import re
 from position import Position
 from time import mktime
 
+## @class PrzewozyRegionalnePositionier
+#  A positioner module for the Przewozy Regionalne sp. z.o.o. data source.
+#  It uses data from http://kursowania.przewozyregionalne.pl and parses them
+#  using BeautifulSoup & some regexp ninja magic to provide information about
+#  active lines at the moment, and position of each line or lines. It also
+#  gathers information about: timestamp of the gps position receiving.
+#
+#
+#  Data available from Przewozy Regionalne include:
+#    - gps position of the train
+#    - datetime of recording the position
+#    - nearest station
+#    - scale of delay (none, 5m, 10m, 20m, more)
+#    - nearest station
+#    - line information (starting station - ending station)
+##
+ 
 class PrzewozyRegionalnePositionier:
     """ TODO:description """
     
@@ -48,8 +65,26 @@ class PrzewozyRegionalnePositionier:
         else:
             return data_page.content
         
-        
+    ##
+    # Parse a data item scrapped from PrzewozyRegionalne website.
+    #
+    # @param list item
+    #   the parsed item with structure of:
+    #   - item[0][0]: string line id
+    #   - item[0][1]: float latitude
+    #   - item[0][2]: float longitude
+    #   - item[0][3]: string relation information (start - end)
+    #   - item[0][4]: enum<string> delay information (enum: planowo, x min., ponad 30 min.)
+    #   - item[0][5]: nearest train station (not sure if nearest or nearest en route)
+    #   - item[0][6]: gps position recording time
+    #           
+    #
+    # @return dict Position 
+    #   dictionary containing information about the item[0][0] line with extra information
+    #   available as: TODO...
+    ##
     def parseDataItem(self, item):
+        print(item)
         if (item != []):
             return Position(item[0][0], self.provider_id, item[0][1], item[0][2], self.type, mktime(datetime.strptime(item[0][6], "%Y-%m-%d %H:%M:%S").timetuple()),
                         {
@@ -57,6 +92,16 @@ class PrzewozyRegionalnePositionier:
                         }
                         )
         return None
+
+
+    ##
+    # Get information about which Przewozy Regionalne trains are currently
+    # on their way and are reporting their GPS positions
+    #
+    # @return list<string> containing ids (each id is a string) of lines
+    #           which are currently active and reporting GPS positions
+    #
+    ##
 
     def getAvailableLines(self):
        
@@ -96,16 +141,26 @@ class PrzewozyRegionalnePositionier:
         # see documentation in getAvailableLines()
         link_regexp = re.compile('http\:\/\/maps\.google\.pl\/maps\?q=([^\+]+).*@([0-9\.]+),([0-9\.]+).*<td[^<]*>(.+)</td><td[^<]*>(.+)</td><td[^<]*>(.+)</td><td[^<]*>(.+)</td>',re.DOTALL | re.IGNORECASE)
         
-        ret = [self.parseDataItem(link_regexp.findall(item)) for item in items]
+        ret = [self.parseDataItem(link_regexp.findall(item)) for item in items[2:]]
         # items has an items[0] containing the <thead> before first <tr>
         # and items[1] the first <tr> containing the header of the table
         # therefore an empty table will result in [None,None] being returned
-        if (ret == [None,None]):
-            return None
         return ret
         
         
-
+    ##
+    # Get the Position of a Przewozy Regionalne train or trains
+    # that are currently on their way and are reporting their GPS positions
+    #
+    # @param line_number integer, string, list<integer> or list<string> containing
+    #           a list of ids of trains
+    #
+    # @return list<Position> containing information about position etc. for the lines
+    #           which ids were in line_number and are still active and reporting GPS
+    #           postitions
+    #
+    # @sa Position, parseDataItem
+    ##
     def getPosition(self, line_number):
         data_tree = BeautifulSoup(self.returnDataTree())
         table = data_tree.find('table','opoznienia')

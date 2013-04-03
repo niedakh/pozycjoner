@@ -25,6 +25,17 @@ from position import Position
 from time import mktime
 from positioner import Positionier
 
+## @class MPKWroclawPositionier
+#
+#  A positioner module for the MPK Wroclaw sp. z.o.o. data source.
+#  It uses data from http://pasazer.mpk.wroc.pl and provides information about
+#  active lines at the moment, and position of each line or lines. 
+#
+#  Data available from MPK Wroclaw include:
+#    - gps position of the line
+#    - transport mode of the line i.e. bus/train/tram
+#
+##
 class MPKWroclawPositionier(Positionier):
     """ TODO:description """
     
@@ -34,6 +45,15 @@ class MPKWroclawPositionier(Positionier):
         self.provider_id = 'pl.wroc.mpk'
         self.mpk_list_url = 'http://pasazer.mpk.wroc.pl/jak-jezdzimy/mapa-pozycji-pojazdow'
         self.dateparser = pdt.Calendar(pdt.Constants())
+        
+    ##
+    # Get information about which MPK lines are available to
+    # query position information, fetches all available without
+    # filtering whether they are active at the time.
+    #
+    # @return list<string> containing ids (each id is a string) of lines
+    #
+    ##
         
     def getAvailableLines(self):
         session = requests.session()
@@ -78,14 +98,16 @@ class MPKWroclawPositionier(Positionier):
             # http header has a specific date format, parser needed
             received = self.dateparser.parseDateText(r.headers['last-modified'])
             return [ self. parseDataItem(x,received) for x in r.json()]
-        
+    
+    # MPK returns a json in the following format
+    #
+    #   @param string received
+    #
+    # {'x': 51.107200622559 /lat/, 'y': 17.033378601074 /lng/,
+    #  'k': '2635053' /some internal id - dunno?/,
+    #  'name': '4' /line number or id /,
+    #  'type': 'tram' /might also be 'bus' or 'train'/}
     def parseDataItem(self, item, received):
-        # MPK returns a json in the following format
-        # {'x': 51.107200622559 /lng/, 'y': 17.033378601074 /lat/,
-        #  'k': '2635053' /some internal id - dunno?/,
-        #  'name': '4' /line number or id /,
-        #  'type': 'tram' /might also be 'bus' or 'train'/}
-
         return Position(item['name'], self.provider_id, item['x'], item['y'], item['type'], mktime(received), {'k': item['k']})
         
     

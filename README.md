@@ -5,7 +5,8 @@ Work in progress from Wroclaw, Poland where the public transport is so bad, peop
 
 Current TODO:
 - check for some backend ideas
-- write some API documentation
+- *in progress* write unit tests 
+- *in progress* write some API documentation
 - *in progress* define nearest station, delay time and other possible data in the Position API (maybe change it to Status?)
 - **done** extra data in backends, esp. time the data was received (what standard?) and attach extra data to results
 - **done** define an API structure with generlized Position class, use standard classess for latlng & dat
