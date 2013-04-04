@@ -84,7 +84,7 @@ class PrzewozyRegionalnePositionier:
     #   available as: TODO...
     ##
     def parseDataItem(self, item):
-        print(item)
+        # print(item)
         if (item != []):
             return Position(item[0][0], self.provider_id, item[0][1], item[0][2], self.type, mktime(datetime.strptime(item[0][6], "%Y-%m-%d %H:%M:%S").timetuple()),
                         {
