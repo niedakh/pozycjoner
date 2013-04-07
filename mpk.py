@@ -40,7 +40,7 @@ class MPKWroclawPositionier(Positionier):
     """ TODO:description """
     
     def __init__(self):
-        self.mpk_url = 'http://pasazer.mpk.wroc.pl/bus_gps/position'
+        self.mpk_url = 'http://pasazer.mpk.wroc.pl/position.php'
         self.provider = 'MPKWroclaw'
         self.provider_id = 'pl.wroc.mpk'
         self.mpk_list_url = 'http://pasazer.mpk.wroc.pl/jak-jezdzimy/mapa-pozycji-pojazdow'
@@ -96,7 +96,7 @@ class MPKWroclawPositionier(Positionier):
             r.raise_for_status()    
         else:
             # http header has a specific date format, parser needed
-            received = self.dateparser.parseDateText(r.headers['last-modified'])
+            received = self.dateparser.parseDateText(r.headers['Date'])
             return [ self. parseDataItem(x,received) for x in r.json()]
     
     # MPK returns a json in the following format

@@ -16,13 +16,22 @@
 #    
 #    You should have received a copy of the GNU Affero General Public License
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+# from ... *
+
+import sys,os
+sys.path.insert(0, '..')
+from przewozyregionalne import PrzewozyRegionalnePositionier
+import unittest
 
 
 class PrzewozyRegionalnePositionierTest(PrzewozyRegionalnePositionier):
     def returnDataTree(self):
-        test_file = open(os.path.dirname(__file__)+'\\pkppr.htm', encoding='utf-8')
-        return test_file.read()
+        self.test_file = open(os.getcwd()+'\\pkppr.htm', encoding='utf-8')
+        return self.test_file.read()
     
+    def __del__(self):
+        if (self.test_file == None):
+            self.test_file.close()
 
 class TestSequenceFunctions(unittest.TestCase):
 
@@ -41,10 +50,8 @@ class TestSequenceFunctions(unittest.TestCase):
                     '7043', '17227', '60326', '87328', '6434', '60823', '6426', '1330/1', '32438', '1112', '1035',
                     '2040', '12038/9', '8724/5', '5037', '23145', '7124', '67225', '46939', '46937/6', '7024',
                     '46201', '51124', '44251', '44233', '51236', '20342', '78443', '4334/5', '7863124/5', '46217',
-                    '21038/9', '64210']
-        self.assertEqual(self.positioner.getAvailableLines, expected)
-
-    
+                    '21038/9', '64210'].sort()
+        self.assertEqual(self.positioner.getAvailableLines().sort(), expected)
     
     
 if __name__ == '__main__':

@@ -1,2 +1,2 @@
 import unittest
-from ..przewozyregionalne import PrzewozyRegionalnePositionier
+from .. import przewozyregionalne 
